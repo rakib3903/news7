@@ -70,9 +70,20 @@ class CategoryTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: avoid_unnecessary_containers
     return  Container(
+      margin: const EdgeInsets.only(right:15),
       child: Stack(
         children: <Widget>[
-          Image.network(imageUrl, width: 120, height: 60),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child:Image.network(imageUrl, width: 120, height: 60, fit : BoxFit.cover,),
+          ),
+          Container(
+            alignment: Alignment.center,
+            width: 120, 
+            height: 60,
+            color: Colors.black26,
+            child: Text(categoryName, style :const TextStyle(color : Colors.white)),
+          )
         ],
       ),
     );
