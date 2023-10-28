@@ -1,6 +1,11 @@
+// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:news_app/helper/data.dart';
+import 'package:news_app/helper/news.dart';
+import 'package:news_app/models/article_model.dart';
 import 'package:news_app/models/category_model.dart';
+import 'package:news_app/views/article_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,22 +16,34 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   List<CategoryModel> categories = [];
+  List<ArticleModel>articles = [];
+  bool _loading = true;
   @override
   void initState(){
     super.initState();
     categories = getCategories();
+    getNews();
+  }
+  
+  getNews() async{
+    News newsClass = News();
+    await newsClass.getNews();
+    articles = newsClass.news;
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.purple,
         title:  const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Flutter", style: TextStyle(color: Colors.black,)),
-            Text("News", style: TextStyle(
+            Text("News", style: TextStyle(color: Colors.black,)),
+            Text("7", style: TextStyle(
               color: Colors.blue,
             )
             ),
@@ -35,28 +52,48 @@ class _HomeState extends State<HomePage> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      // ignore: avoid_unnecessary_containers
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
-            Container(
-              height: 70,
-              child: ListView.builder(
-                itemCount: categories.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index){
-                  return CategoryTitle(
-                    imageUrl: categories[index].imageUrl,
-                    categoryName: categories[index].categoryName,
-                  );
-                },
-              )
-            )
-          ]
+      body: _loading ? Center(
+        child: Container(
+          child: const CircularProgressIndicator(),
         ),
-      ),
+      ): SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 70,
+                child: ListView.builder(
+                  itemCount: categories.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index){
+                    return CategoryTitle(
+                      imageUrl: categories[index].imageUrl,
+                      categoryName: categories[index].categoryName,
+                    );
+                  },
+                )
+              ),
+              ///Blog list
+              Container(
+                child: ListView.builder(
+                  itemCount: articles.length,
+                  shrinkWrap: true,
+                  itemBuilder:(context, index){
+                    return BlogTitle(
+                      imageUrl: articles[index].urlToImage,
+                      title: articles[index].title,
+                      desc: articles[index].description,
+                      url: articles[index].url,
+                    );
+                  },
+                ),
+              ),
+            ]
+          ),
+        ),
+       ),
     );
   }
 }
@@ -68,23 +105,66 @@ class CategoryTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: avoid_unnecessary_containers
-    return  Container(
-      margin: const EdgeInsets.only(right:15),
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child:Image.network(imageUrl, width: 120, height: 60, fit : BoxFit.cover,),
-          ),
-          Container(
-            alignment: Alignment.center,
-            width: 120, 
-            height: 60,
-            color: Colors.black26,
-            child: Text(categoryName, style :const TextStyle(color : Colors.white)),
+    return  GestureDetector(
+      onTap: (){
+
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right:15),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child:Image.network(imageUrl, width: 120, height: 60, fit : BoxFit.cover,),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width:120, 
+              height: 60,
+              color: Colors.black26,
+              child: Text(categoryName, style :const TextStyle(color : Colors.white)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+ 
+class BlogTitle extends StatelessWidget {
+  
+
+  final String imageUrl, title, desc, url;
+  const BlogTitle({super.key, required this.imageUrl, required this.title,
+                  required this.desc, required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => ArticleView(
+            blogUrl: url,
           )
-        ],
+        ),
+        );
+      },
+
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        child:Column(
+          children: <Widget>[
+            Image.network(imageUrl),
+            Text(
+              title,
+              style: const TextStyle(
+                color:Colors.black87,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(desc, style: const TextStyle(color: Colors.black),)
+          ],
+        )
       ),
     );
   }

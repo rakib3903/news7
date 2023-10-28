@@ -11,6 +11,8 @@ class CategoryNews extends StatefulWidget {
 class _CategoryNewsState extends State<CategoryNews> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+
+    );
   }
 }
