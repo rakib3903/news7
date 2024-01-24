@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:news_app/helper/data.dart';
-import 'package:news_app/helper/news.dart';
-import 'package:news_app/models/article_model.dart';
-import 'package:news_app/models/category_model.dart';
-import 'package:news_app/views/article_view.dart';
-import 'package:news_app/views/category_news.dart';
+import 'package:news7/helper/data.dart';
+import 'package:news7/helper/news.dart';
+import 'package:news7/models/article_model.dart';
+import 'package:news7/models/category_model.dart';
+import 'package:news7/views/article_view.dart';
+import 'package:news7/views/category_news.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,14 +39,13 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: const Color.fromARGB(255, 39, 174, 176),
         title:  const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("News", style: TextStyle(color: Colors.black,)),
+            Text("News", style: TextStyle(color: Colors.white,)),
             Text("7", style: TextStyle(
-              color: Colors.blue,
-            )
+              color: Colors.white70)
             ),
           ]
         ),
@@ -78,7 +77,8 @@ class _HomeState extends State<HomePage> {
               ),
               ///Blog list
               Container(
-                child: ListView.builder(
+                 height: MediaQuery.of(context).size.height * 0.8,
+                 child: ListView.builder(
                   itemCount: articles.length,
                   shrinkWrap: true,
                   itemBuilder:(context, index){

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:news_app/models/article_model.dart';
+import 'package:news7/models/article_model.dart';
 import 'package:http/http.dart' as http;
 class News{
   List<ArticleModel> news = [];

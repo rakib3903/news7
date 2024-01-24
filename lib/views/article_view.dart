@@ -23,14 +23,14 @@ class _ArticleViewState extends State<ArticleView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: const Color.fromARGB(255, 39, 174, 176),
         title:  const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("News", style: TextStyle(color: Colors.black,)),
+            Text("News", style: TextStyle(color: Colors.white,)),
             Text("7", style: TextStyle(
-              color: Colors.blue,
-            )
+              color: Colors.white70,
+            ),
             ),
           ]
         ),
