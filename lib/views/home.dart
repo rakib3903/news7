@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+
 class _HomeState extends State<HomePage> {
   List<CategoryModel> categories = [];
   List<ArticleModel>articles = [];
@@ -153,8 +154,8 @@ class BlogTitle extends StatelessWidget {
           )
         ),
         );
-      },
-
+      },      
+    
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
         child:Column(
@@ -174,3 +175,7 @@ class BlogTitle extends StatelessWidget {
     );
   }
 }
+
+
+
+
